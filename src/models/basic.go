@@ -94,3 +94,12 @@ func Remove(collection string, selector interface{}) error {
 	defer session.Close()
 	return session.DB("").C(collection).Remove(selector)
 }
+
+func RemoveAll(collection string, selector interface{}) (*mgo.ChangeInfo, error) {
+	session, err := getSession()
+	if err != nil {
+		return nil, err
+	}
+	defer session.Close()
+	return session.DB("").C(collection).RemoveAll(selector)
+}

@@ -57,7 +57,7 @@ func WeiXinPost(w *express.Response, r *express.Request) {
 	logger.Debugf("%#v", event)
 	switch event.Event {
 	case "subscribe":
-		if _, err := models.Upsert(config.CollUsers, bson.M{"WxID": event.FromUserName}, models.User{WxID: event.FromUserName, UserId: bson.NewObjectId()}); err != nil {
+		if _, err := models.Upsert(config.CollUsers, bson.M{"WxID": event.FromUserName}, models.User{WxID: event.FromUserName}); err != nil {
 			logger.Errorf("Registry user error: %s\n", err.Error())
 		}
 		fallthrough
@@ -73,7 +73,7 @@ func WeiXinPost(w *express.Response, r *express.Request) {
 			logger.Errorf("Find user error: %s\n", err.Error())
 			return
 		}
-		models.Remove(config.CollUrls, bson.M{"UserId": selfInfo.UserId.Hex()})
+		models.RemoveAll(config.CollUrls, bson.M{"UserId": selfInfo.UserId.Hex()})
 	}
 }
 

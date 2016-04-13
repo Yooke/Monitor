@@ -91,7 +91,7 @@ func CheckFalseMessage(urlInfo models.Url) {
 		body.Data["first"] = map[string]string{"value": "警告！！！连续3次检测失败。\n", "color": "#ff0000"}
 		body.Data["title"] = map[string]string{"value": urlInfo.AliasName, "color":"#173177"}
 		body.Data["info"] = map[string]string{"value": urlInfo.Remark, "color":"#173177"}
-		body.Data["remark"] = map[string]string{"value": "请及时处理，故障恢复后会通知你。", "color":"#173177"}
+		body.Data["remark"] = map[string]string{"value": "\n请及时处理，故障恢复后会通知你。", "color":"#ebebeb"}
 		go body.Send()
 	}
 
@@ -113,7 +113,7 @@ func CheckTrueMessage(urlInfo models.Url) {
 		body.Data["first"] = map[string]string{"value": "故障已恢复正常。\n", "color": "#32cd32"}
 		body.Data["title"] = map[string]string{"value": urlInfo.AliasName, "color":"#173177"}
 		body.Data["info"] = map[string]string{"value": urlInfo.Remark, "color":"#173177"}
-		body.Data["remark"] = map[string]string{"value": fmt.Sprintf("故障持续时间：%.0f", time.Now().Sub(urlInfo.FailedTime).Minutes()), "color":"#173177"}
+		body.Data["remark"] = map[string]string{"value": fmt.Sprintf("\n故障持续时间，%.0f 分钟！", time.Now().Sub(urlInfo.FailedTime).Minutes()), "color":"#ebebeb"}
 		go body.Send()
 	}
 }

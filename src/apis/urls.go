@@ -33,7 +33,7 @@ func UrlsDir(w *express.Response, r *express.Request) {
 		}
 		for _, group := range groupsInfo {
 			data := []models.Url{}
-			if err := models.FindAll(config.CollUrls, bson.M{"UserId": group.UserId}, &data); err != nil {
+			if err := models.FindAll(config.CollUrls, bson.M{"UserId": group.UserId.Hex()}, &data); err != nil {
 				logger.Errorf("UrlsDir mongodb error: %s\n", err.Error())
 				w.Status(http.StatusInternalServerError).Json(NewJSONError("Internal server error"))
 				return
@@ -91,7 +91,7 @@ func UrlsAdd(w *express.Response, r *express.Request) {
 	w.Status(http.StatusCreated)
 }
 
-// UrlsUpdate 更新url， 可选参数：AliasName Address Interval   POST /urls/{UrlId}
+// UrlsUpdate 更新url， 可选参数：AliasName Address Remark Interval   POST /urls/{UrlId}
 func UrlsUpdate(w *express.Response, r *express.Request) {
 	urlID := r.PathParam["UrlId"]
 	urlInfo := models.Url{}
@@ -108,6 +108,9 @@ func UrlsUpdate(w *express.Response, r *express.Request) {
 	doc := bson.M{}
 	if urlInfo.AliasName != "" {
 		doc["AliasName"] = urlInfo.AliasName
+	}
+	if urlInfo.Remark != "" {
+		doc["Remark"] = urlInfo.Remark
 	}
 	if tools.ValidURL(urlInfo.Address) {
 		doc["Address"] = urlInfo.Address

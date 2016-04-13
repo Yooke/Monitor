@@ -85,7 +85,6 @@ func CheckFalseMessage(urlInfo models.Url) {
 		body := templateMessage{
 			ToUser:     wxID,
 			TemplateID: config.CheckFalseTemplate,
-			//Url:        fmt.Sprintf("http://monitor.qbangmang.com/urls/" + urlInfo.UrlId.Hex()),
 			Data:       make(map[string]map[string]string),
 		}
 		body.Data["first"] = map[string]string{"value": "警告！！！连续3次检测失败。\n", "color": "#ff0000"}
@@ -107,7 +106,6 @@ func CheckTrueMessage(urlInfo models.Url) {
 		body := templateMessage{
 			ToUser:     wxID,
 			TemplateID: config.CheckTrueTemplate,
-			//Url:        fmt.Sprintf("http://monitor.qbangmang.com/urls/" + urlInfo.UrlId.Hex()),
 			Data:       make(map[string]map[string]string),
 		}
 		body.Data["first"] = map[string]string{"value": "故障已恢复正常。\n", "color": "#32cd32"}

@@ -67,6 +67,13 @@ func WeiXinPost(w *express.Response, r *express.Request) {
 				logger.Errorf("Insert to TTLQueue error: %s\n", err.Error())
 			}
 		}
+	case "unsubscribe":
+		selfInfo := new(models.User)
+		if err := models.FindOne(config.CollUsers, bson.M{"WxID": event.FromUserName}, selfInfo); err != nil {
+			logger.Errorf("Find user error: %s\n", err.Error())
+			return
+		}
+		models.Remove(config.CollUrls, bson.M{"UserId": selfInfo.UserId.Hex()})
 	}
 }
 

@@ -38,7 +38,9 @@ func UrlsDir(w *express.Response, r *express.Request) {
 				w.Status(http.StatusInternalServerError).Json(NewJSONError("Internal server error"))
 				return
 			}
-			body[group.NickName] = data
+			if len(data) > 0 {
+				body[group.NickName] = data
+			}
 		}
 	}
 	w.Json(express.MustToJson(body))

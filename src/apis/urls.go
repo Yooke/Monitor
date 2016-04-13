@@ -83,7 +83,6 @@ func UrlsAdd(w *express.Response, r *express.Request) {
 	urlInfo.UrlId = bson.NewObjectId()
 	urlInfo.UserId = w.GetLocals("UserInfo").(*models.User).UserId.Hex()
 	urlInfo.IsOk = true
-	logger.Debugf("%#v\n", urlInfo)
 	if err := models.Insert(config.CollUrls, urlInfo); err != nil {
 		w.Status(http.StatusInternalServerError).Json(NewJSONErrorf("Mongodb error: %s", err.Error()))
 		return
